@@ -1,0 +1,33 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
+export default function Dashboard() {
+  const [eventos, setEventos] = useState<any[]>([])
+
+  useEffect(() => {
+    async function cargar() {
+      const res = await fetch("/api/vitals")
+      const data = await res.json()
+      console.log(data)
+    }
+
+    cargar()
+  }, [])
+
+  return (
+    <div style={{ padding: 20, fontFamily: "Arial" }}>
+      <h1>🏥 ContinuA - Panel Clínico</h1>
+
+      <p>Estado API: activo</p>
+
+      <hr />
+
+      <h2>Últimos eventos</h2>
+
+      <p>Conectado a backend ✔</p>
+
+      <p>Próximo paso: listar eventos reales desde Supabase</p>
+    </div>
+  )
+}
