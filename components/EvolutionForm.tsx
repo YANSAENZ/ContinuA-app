@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 
 export default function EvolutionForm({ onClose }: { onClose: () => void }) {
-  const [autor, setAutor] = useState(''); // Nuevo estado obligatorio
+  const [autor, setAutor] = useState(''); 
   const [evento, setEvento] = useState('');
-  const [estado, setEstado] = useState('Observación'); // Mapeado por defecto al estado inicial limpio
+  const [estado, setEstado] = useState('Observación'); 
   const [sintomas, setSintomas] = useState('');
-  const [tratamiento, setTratamiento] = useState('');
+  const [tratamiento, setTratamiento] = useState(''); 
   const [medico, setMedico] = useState('');
   const [notes, setNotas] = useState('');
   const [enviando, setEnviando] = useState(false);
@@ -16,7 +16,6 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validación estricta: si no hay nombre, no se graba
     if (!autor.trim()) {
       setError('⚠️ Es obligatorio ingresar tu nombre para poder registrar la nota.');
       return;
@@ -26,8 +25,8 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
     setEnviando(true);
 
     const ahora = new Date();
-    const fechaIso = ahora.toISOString().split('T')[0]; // YYYY-MM-DD
-    const horaIso = ahora.toTimeString().split(' ')[0]; // HH:MM:SS
+    const fechaIso = ahora.toISOString().split('T')[0]; 
+    const horaIso = ahora.toTimeString().split(' ')[0]; // CORREGIDO: Ahora es un string limpio de hora
 
     try {
       const res = await fetch('/api/evolution', { 
@@ -37,12 +36,12 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
           fecha: fechaIso,
           hora: horaIso,
           evento: evento,
-          estado: estado, // Envía el texto limpio compatible ("Observación", "Estable", etc.)
+          estado: estado, 
           signos_sintomas: sintomas,
           intervencion_tratamiento: tratamiento,
           medico: medico || 'No especificado',
           notas: notes,
-          registrado_por: autor.trim() // Ahora guarda el nombre real del familiar
+          registrado_por: autor.trim() 
         }),
       });
 
@@ -96,7 +95,7 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
             />
           </div>
 
-          {/* SELECTOR CORREGIDO PARA SUPABASE */}
+          {/* SELECTOR DE ESTADOS */}
           <div>
             <label className="block text-xs text-slate-400 mb-1">Estado del caso</label>
             <select 
@@ -123,7 +122,10 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
           <div>
             <label className="block text-xs text-slate-400 mb-1">Intervención / Tratamiento</label>
             <input 
-              type="text" placeholder="ej. Paracetamol 500mg, Administration de sedante" value={treatment} onChange={e => setTratamiento(e.target.value)}
+              type="text" 
+              placeholder="ej. Paracetamol 500mg, Administración de sedante" 
+              value={tratamiento} 
+              onChange={e => setTratamiento(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 text-xs focus:outline-none focus:border-amber-500"
             />
           </div>
