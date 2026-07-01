@@ -5,11 +5,11 @@ import React, { useState } from 'react';
 export default function EvolutionForm({ onClose }: { onClose: () => void }) {
   const [autor, setAutor] = useState(''); // Nuevo estado obligatorio
   const [evento, setEvento] = useState('');
-  const [estado, setEstado] = useState('🟡 En estudio'); // Mapeado a tus nuevos estados
+  const [estado, setEstado] = useState('Observación'); // Mapeado por defecto al estado inicial limpio
   const [sintomas, setSintomas] = useState('');
   const [tratamiento, setTratamiento] = useState('');
   const [medico, setMedico] = useState('');
-  const [notas, setNotas] = useState('');
+  const [notes, setNotas] = useState('');
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState('');
 
@@ -37,11 +37,11 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
           fecha: fechaIso,
           hora: horaIso,
           evento: evento,
-          estado: estado,
+          estado: estado, // Envía el texto limpio compatible ("Observación", "Estable", etc.)
           signos_sintomas: sintomas,
           intervencion_tratamiento: tratamiento,
           medico: medico || 'No especificado',
-          notas: notas,
+          notas: notes,
           registrado_por: autor.trim() // Ahora guarda el nombre real del familiar
         }),
       });
@@ -96,19 +96,19 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
             />
           </div>
 
-          {/* SELECTOR CON LOS NUEVOS ESTADOS DE CONTINUA */}
+          {/* SELECTOR CORREGIDO PARA SUPABASE */}
           <div>
             <label className="block text-xs text-slate-400 mb-1">Estado del caso</label>
             <select 
               value={estado} onChange={e => setEstado(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500 font-mono"
             >
-              <option value="🟡 En estudio">🟡 En estudio</option>
-              <option value="🟠 Esperando resultado">🟠 Esperando resultado</option>
-              <option value="🔵 Tratamiento médico">🔵 Tratamiento médico</option>
-              <option value="🟢 Estable">🟢 Estable</option>
-              <option value="🔴 Evento agudo">🔴 Evento agudo</option>
-              <option value="⚫ Alta">⚫ Alta</option>
+              <option value="Observación">🟡 En estudio</option>
+              <option value="Observación">🟠 Esperando resultado</option>
+              <option value="Estable">🔵 Tratamiento médico</option>
+              <option value="Estable">🟢 Estable</option>
+              <option value="Crítico">🔴 Evento agudo</option>
+              <option value="Recuperación">⚫ Alta</option>
             </select>
           </div>
 
@@ -123,7 +123,7 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
           <div>
             <label className="block text-xs text-slate-400 mb-1">Intervención / Tratamiento</label>
             <input 
-              type="text" placeholder="ej. Paracetamol 500mg, Administración de sedante" value={tratamiento} onChange={e => setTratamiento(e.target.value)}
+              type="text" placeholder="ej. Paracetamol 500mg, Administration de sedante" value={treatment} onChange={e => setTratamiento(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 text-xs focus:outline-none focus:border-amber-500"
             />
           </div>
@@ -139,7 +139,7 @@ export default function EvolutionForm({ onClose }: { onClose: () => void }) {
             <div>
               <label className="block text-xs text-slate-400 mb-1">Notas / Observaciones</label>
               <input 
-                type="text" placeholder="ej. Informar al neurólogo" value={notas} onChange={e => setNotas(e.target.value)}
+                type="text" placeholder="ej. Informar al neurólogo" value={notes} onChange={e => setNotas(e.target.value)}
                 className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 text-xs focus:outline-none focus:border-amber-500"
               />
             </div>
